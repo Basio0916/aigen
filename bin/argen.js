@@ -21,10 +21,10 @@ if (args.includes('--cursor')) {
   targetEnvironment = 'copilot';
 }
 
-// 環境を検出（オプション指定時はそちらを優先）
-const isCursor = targetEnvironment === 'cursor' || (fs.existsSync(path.join(cwd, '.cursor')) && targetEnvironment === 'copilot');
-const isWindsurf = targetEnvironment === 'windsurf' || (fs.existsSync(path.join(cwd, '.windsurf')) && targetEnvironment === 'copilot');
-const isGitHubCopilot = targetEnvironment === 'copilot' || (!isCursor && !isWindsurf);
+// 環境を検出（オプション指定のみで判定）
+const isCursor = targetEnvironment === 'cursor';
+const isWindsurf = targetEnvironment === 'windsurf';
+const isGitHubCopilot = targetEnvironment === 'copilot';
 
 let targetDir, targetFile, sourceFile, environmentName;
 
