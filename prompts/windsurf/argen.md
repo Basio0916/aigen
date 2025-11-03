@@ -1,3 +1,12 @@
+---
+description: Generate comprehensive AI agent rules and instructions based on project analysis
+auto_execution_mode: 3
+---
+<meta>
+description: Generate comprehensive AI agent rules and instructions based on project analysis
+argument-hint: [--cursor:$1] [--windsurf:$2] [--copilot:$3]
+</meta>
+
 # ARGEN - Windsurf Instructions Generator
 
 このコマンドを実行すると、現在のプロジェクトを分析してWindsurf用の指示書(.windsurf/rules/instructions.md)を自動生成します。
