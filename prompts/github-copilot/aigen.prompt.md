@@ -26,6 +26,20 @@
 - `*.csproj`, `*.sln` - C#/.NETプロジェクト
 - `pubspec.yaml` - Flutter/Dartプロジェクト
 
+### データベース関連ファイルの検出
+- `schema.sql`, `*.sql` - SQLスキーマファイル
+- `schema.hcl`, `atlas.hcl` - Atlasスキーマファイル
+- `migrations/` - データベースマイグレーションディレクトリ
+- `prisma/schema.prisma` - Prisma ORMスキーマ
+- `drizzle/`, `*.drizzle.ts` - Drizzle ORM設定
+- `sequelize/`, `models/` - Sequelizeモデル
+- `typeorm/`, `*.entity.ts` - TypeORMエンティティ
+- `django/`, `models.py` - Django ORMモデル
+- `sqlalchemy/`, `models.py` - SQLAlchemyモデル
+- `alembic/` - Alembicマイグレーション
+- `flyway/` - Flywayマイグレーション
+- `liquibase/` - Liquibase変更セット
+
 ### ディレクトリ構成の分析
 - `src/`, `lib/`, `app/` - メインソースコード
 - `components/`, `views/`, `pages/` - UI関連
@@ -40,6 +54,9 @@
 - `web/` - Flutter Web対応コード
 - `test/` - Flutterテストコード
 - `integration_test/` - Flutter統合テスト
+- `db/`, `database/` - データベース関連ファイル
+- `migrations/` - データベースマイグレーション
+- `seeds/`, `seeders/` - データベースシード
 
 ## ステップ2: 技術スタックの特定
 
@@ -69,6 +86,17 @@
 - **Ruby**: Rails, Sinatra
 - **Flutter/Dart**: Flutter, Material Design, Cupertino (iOS-style), Provider, Riverpod, Bloc, GetX, Dio
 
+### データベースとORM
+- **JavaScript/TypeScript**: Prisma, Drizzle ORM, Sequelize, TypeORM, Mongoose, Knex.js
+- **Python**: SQLAlchemy, Django ORM, Peewee, Tortoise ORM
+- **Java**: Hibernate, JPA, MyBatis, Spring Data JPA
+- **C#**: Entity Framework Core, Dapper, NHibernate
+- **Go**: GORM, sqlx, ent, SQLBoiler
+- **Rust**: Diesel, sqlx, sea-orm
+- **PHP**: Eloquent (Laravel), Doctrine ORM
+- **Ruby**: ActiveRecord (Rails), Sequel
+- **データベース管理ツール**: Atlas, Flyway, Liquibase, Alembic
+
 ### テストフレームワーク
 - **JavaScript/TypeScript**: Jest, Vitest, Mocha, Jasmine, Cypress, Playwright, Testing Library
 - **Python**: pytest, unittest, nose, Selenium
@@ -94,6 +122,9 @@
 - **BLoC Pattern**: `lib/blocs/`, `lib/events/`, `lib/states/` の構成
 - **Provider Pattern**: `lib/providers/` ディレクトリの存在
 - **Riverpod**: `lib/providers/` または `lib/` 内の `*_provider.dart` ファイル
+- **Repository Pattern**: `repositories/` ディレクトリの存在
+- **Data Mapper**: `mappers/` ディレクトリの存在
+- **Active Record**: `models/` ディレクトリとデータベース操作の混在
 
 ## ステップ4: 指示書の生成
 
@@ -140,11 +171,16 @@
 **フレームワーク**: [検出されたフレームワーク]
 **パッケージマネージャー**: [検出されたパッケージマネージャー]
 **テストフレームワーク**: [検出されたテストフレームワーク]
+**データベース**: [検出されたデータベース]
+**ORM**: [検出されたORM]
+**マイグレーションツール**: [検出されたマイグレーションツール]
 
 ## 重要事項
 - プロジェクトで使用されていないライブラリはimportしないでください
 - 既存のバージョンに合わせてライブラリを使用してください
 - 新しい依存関係を追加する際は、互換性を確認してください
+- データベーススキーマの変更はマイグレーションファイルで管理してください
+- ORMのベストプラクティスに従ってください
 ```
 
 ### 4. ディレクトリ構成
@@ -248,6 +284,28 @@
 - Navigator.pushを直接使用せず、GoRouterや同様のルーティングソリューションを検討してください
 - print()の代わりにdebugPrint()を使用してください
 - FutureBuilderを過度に使用せず、状態管理ソリューションを検討してください
+
+### データベース/ORM共通
+- N+1クエリ問題を避けてください（eager loadingやjoinを適切に使用）
+- 生のSQL文字列の結合は避けて、パラメータ化クエリを使用してください
+- データベーストランザクションを適切に使用してください
+- インデックスを考慮したクエリを記述してください
+- マイグレーションファイルは常に可逆的（rollback可能）にしてください
+
+### Prisma (TypeScript/JavaScript)
+- select句を指定して必要なフィールドのみ取得してください
+- includeとselectを適切に使い分けてください
+- トランザクションはprisma.$transactionを使用してください
+
+### SQLAlchemy (Python)
+- lazy loadingを理解して適切にrelationshipを設定してください
+- session.commit()とsession.rollback()を適切に使用してください
+- クエリ結果のキャッシュを考慮してください
+
+### Entity Framework (C#)
+- Include()によるeager loadingを適切に使用してください
+- ChangeTrackerのパフォーマンスを考慮してください
+- AsNoTracking()を読み取り専用クエリで使用してください
 
 ## 実行指示
 
